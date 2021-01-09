@@ -9,9 +9,14 @@ jobs:
     strategy:
       matrix:
         ghc: ['8.6', '8.8', '8.10']
+        test: [doctest, spec]
         continue-on-error: [false]
         include:
           - ghc: latest
+            test: doctest
+            continue-on-error: true
+          - ghc: latest
+            test: spec
             continue-on-error: true
 
     runs-on: ubuntu-latest
@@ -35,8 +40,7 @@ jobs:
       - run: make build
         env:
           CABAL_OPTIONS: --ghc-options -Werror
-      - run: make doctest
-      - run: make spec
+      - run: make ${{ matrix.test }}
 
   lint:
     runs-on: ubuntu-latest
