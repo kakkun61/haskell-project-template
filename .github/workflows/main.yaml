@@ -47,15 +47,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: haskell/actions/setup@v1
-      - uses: actions/cache@v2
-        with:
-          path: $HOME/.cabal/packages
-          key: packages-${{ runner.os }}-latest
-      - uses: actions/cache@v2
-        with:
-          path: $HOME/.cabal/store
-          key: store-${{ runner.os }}-latest
-      - run: cabal install hlint
-      - run: echo "$HOME/.cabal/bin" >> $GITHUB_PATH
+      - uses: rwe/actions-hlint-setup@v1
       - run: make lint
