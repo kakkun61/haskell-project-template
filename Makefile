@@ -1,7 +1,7 @@
 PWSH = pwsh
 
 .PHONY: build
-build: build-deps
+build:
 	cabal v2-build
 
 .PHONY: build-deps
@@ -12,11 +12,11 @@ build-deps:
 test: doctest spec
 
 .PHONY: doctest
-doctest: build-deps
+doctest:
 	cabal v2-test doctest
 
 .PHONY: spec
-spec: build-deps
+spec:
 	cabal v2-test spec
 
 .PHONY: repl
