@@ -30,12 +30,10 @@ jobs:
           ghc-version: ${{ matrix.ghc }}
       - uses: actions/cache@v2
         with:
-          path: $HOME/.cabal/packages
-          key: packages-${{ runner.os }}-${{ matrix.ghc }}
-      - uses: actions/cache@v2
-        with:
-          path: $HOME/.cabal/store
-          key: store-${{ runner.os }}-${{ matrix.ghc }}
+          path: |
+            $HOME/.cabal/packages
+            $HOME/.cabal/store
+          key: cabal-${{ runner.os }}-${{ matrix.ghc }}
       - run: make build-deps
       - run: make build
       - run: make ${{ matrix.test }}
