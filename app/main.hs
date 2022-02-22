@@ -1,4 +1,4 @@
-import Lib
+import Lib (hello)
 
 main :: IO ()
 main = do
