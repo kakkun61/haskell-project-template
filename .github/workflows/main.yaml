@@ -51,9 +51,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: haskell/actions/setup@v1
-        with:
-          ghc-version: '8.10'
-      - run: cabal install stylish-haskell
-      - run: make format
+      - run: curl -sL https://raw.github.com/haskell/stylish-haskell/master/scripts/latest.sh | sh -s -- --inplace --recursive src app test
       - run: git diff --exit-code

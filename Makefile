@@ -25,7 +25,7 @@ repl:
 
 .PHONY: format
 format:
-	$(PWSH) -Command "& { Get-ChildItem -Filter '*.hs' -Recurse src, app, test | ForEach-Object { stylish-haskell -i $$_.FullName } }"
+	stylish-haskell --inplace --recursive src app test
 
 .PHONY: lint
 lint:
