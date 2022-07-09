@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: rwe/actions-hlint-setup@v1
+      - uses: haskell/actions/hlint-setup@v2
       - run: make lint
 
   format:
