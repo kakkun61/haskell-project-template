@@ -34,7 +34,7 @@ jobs:
         with:
           path: |
             ${{ steps.setup-haskell.outputs.cabal-store }}
-            ./haskell/dist-newstyle
+            ./dist-newstyle
           key: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ matrix.test }}-${{ hashFiles('/cabal.project.freeze') }}
           restore-keys: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ matrix.test }}-
       - run: make build-deps
