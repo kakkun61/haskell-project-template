@@ -54,6 +54,14 @@ common release
     ghc-options: -Wmissing-kind-signatures
                  -Woperator-whitespace
                  -Wredundant-bang-patterns
+  if impl(ghc >= 9.4)
+    ghc-options: -Wmisplaced-pragmas
+                 -Wredundant-strictness-flags
+                 -Wforall-identifier
+  if impl(ghc >= 9.4.1)
+    ghc-options: -Wgadt-mono-local-binds
+                 -Wtype-equality-out-of-scope
+                 -Wtype-equality-requires-operators
 
 library
   import: release
