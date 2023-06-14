@@ -50,11 +50,15 @@ jobs:
       - run: sudo apt-get install libtinfo5
       - run: make lint
 
-  # Stop until merging https://github.com/haskell/stylish-haskell/pull/420
-  # format:
-  #   runs-on: ubuntu-latest
+  format:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - run: curl -sL https://raw.github.com/haskell/stylish-haskell/master/scripts/latest.sh | sh -s -- --inplace --recursive src app test
-  #     - run: git diff --exit-code
+    steps:
+      - uses: actions/checkout@v2
+      - uses: haskell-actions/run-fourmolu@v9
+        with:
+          version: "0.13.0.0"
+          pattern: |
+            src/**/*.hs
+            app/**/*.hs
+            test/**/*.hs
