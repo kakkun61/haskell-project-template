@@ -10,18 +10,8 @@ jobs:
       matrix:
         ghc: ['8.6.5', '8.8.4', '8.10.7', '9.0.2', '9.2.5', '9.4.3']
         test: [doctest, spec]
-        continue-on-error: [false]
-        include:
-          - ghc: latest
-            test: doctest
-            continue-on-error: true
-          - ghc: latest
-            test: spec
-            continue-on-error: true
 
     runs-on: ubuntu-latest
-
-    continue-on-error: ${{ matrix.continue-on-error }}
 
     steps:
       - uses: actions/checkout@v2
@@ -29,13 +19,13 @@ jobs:
         id: setup-haskell
         with:
           ghc-version: ${{ matrix.ghc }}
-      - run: ln -s cabal.project.${{ matrix.ghc }}.freeze cabal.project.freeze
+      - run: cp cabal.project.${{ matrix.ghc }}.freeze cabal.project.freeze
       - uses: actions/cache/restore@v3
         with:
           path: |
             ${{ steps.setup-haskell.outputs.cabal-store }}
             ./dist-newstyle
-          key: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('/cabal.project.freeze') }}
+          key: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('./cabal.project.freeze') }}
           restore-keys: cabal-${{ runner.os }}-${{ matrix.ghc }}-
       - run: make build-deps
       - uses: actions/cache/save@v3
@@ -43,7 +33,7 @@ jobs:
           path: |
             ${{ steps.setup-haskell.outputs.cabal-store }}
             ./dist-newstyle
-          key: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('/cabal.project.freeze') }}
+          key: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('./cabal.project.freeze') }}
       - run: make build
       - run: make ${{ matrix.test }}
 
