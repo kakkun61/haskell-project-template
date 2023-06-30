@@ -5,11 +5,10 @@ on:
   - pull_request
 
 jobs:
-  test:
+  build-deps:
     strategy:
       matrix:
         ghc: ['8.6.5', '8.8.4', '8.10.7', '9.0.2', '9.2.8', '9.4.4', '9.6.2']
-        test: [doctest, spec]
 
     runs-on: ubuntu-latest
 
@@ -34,7 +33,56 @@ jobs:
             ${{ steps.setup-haskell.outputs.cabal-store }}
             ./dist-newstyle
           key: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('./cabal.project.freeze') }}
+
+  build:
+    needs: build-deps
+
+    strategy:
+      matrix:
+        ghc: ['8.6.5', '8.8.4', '8.10.7', '9.0.2', '9.2.8', '9.4.4', '9.6.2']
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: haskell/actions/setup@v2
+        id: setup-haskell
+        with:
+          ghc-version: ${{ matrix.ghc }}
+      - run: cp cabal.project.${{ matrix.ghc }}.freeze cabal.project.freeze
+      - uses: actions/cache/restore@v3
+        with:
+          path: |
+            ${{ steps.setup-haskell.outputs.cabal-store }}
+            ./dist-newstyle
+          key: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('./cabal.project.freeze') }}
+          restore-keys: cabal-${{ runner.os }}-${{ matrix.ghc }}-
       - run: make build
+
+  test:
+    needs: build
+
+    strategy:
+      matrix:
+        ghc: ['8.6.5', '8.8.4', '8.10.7', '9.0.2', '9.2.8', '9.4.4', '9.6.2']
+        test: [doctest, spec]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: haskell/actions/setup@v2
+        id: setup-haskell
+        with:
+          ghc-version: ${{ matrix.ghc }}
+      - run: cp cabal.project.${{ matrix.ghc }}.freeze cabal.project.freeze
+      - uses: actions/cache/restore@v3
+        with:
+          path: |
+            ${{ steps.setup-haskell.outputs.cabal-store }}
+            ./dist-newstyle
+          key: cabal-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('./cabal.project.freeze') }}
+          restore-keys: cabal-${{ runner.os }}-${{ matrix.ghc }}-
       - run: make ${{ matrix.test }}
 
   lint:
