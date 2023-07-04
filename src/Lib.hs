@@ -1,7 +1,6 @@
 module Lib
   ( hello
-  )
-where
+  ) where
 
 -- | Greeting message.
 --

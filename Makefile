@@ -25,7 +25,7 @@ repl:
 
 .PHONY: format
 format:
-	fourmolu --mode inplace src app test
+	stylish-haskell --inplace --recursive src app test
 
 .PHONY: lint
 lint:
