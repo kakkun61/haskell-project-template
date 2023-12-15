@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: haskell/actions/setup@v2
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
         id: setup-haskell
         with:
           ghc-version: ${{ matrix.ghc }}
@@ -43,8 +43,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: haskell/actions/hlint-setup@v2
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/hlint-setup@v2
       - run: sudo apt-get install libtinfo5
       - run: make lint
 
@@ -52,6 +52,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: curl -sL https://raw.github.com/haskell/stylish-haskell/master/scripts/latest.sh | sh -s -- --inplace --recursive src app test
       - run: git diff --exit-code
