@@ -64,7 +64,8 @@ common release
                  -Wtype-equality-out-of-scope
                  -Wtype-equality-requires-operators
   if impl(ghc >= 9.6.1)
-    ghc-options: -Wloopy-superclass-solve
+    -- ghc-options: -Wloopy-superclass-solve
+    -- Bug: https://gitlab.haskell.org/ghc/ghc/-/issues/24071
   if impl(ghc >= 9.8.1)
     ghc-options: -Wincomplete-export-warnings
 
