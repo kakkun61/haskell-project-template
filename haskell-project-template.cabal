@@ -51,17 +51,22 @@ common release
   if impl(ghc >= 9.0)
     ghc-options: -Winvalid-haddock
   if impl(ghc >= 9.2)
-    ghc-options: -Wmissing-kind-signatures
+    ghc-options: -Wambiguous-fields
+                 -Wmissing-kind-signatures
                  -Woperator-whitespace
                  -Wredundant-bang-patterns
   if impl(ghc >= 9.4)
-    ghc-options: -Wmisplaced-pragmas
-                 -Wredundant-strictness-flags
+    ghc-options: -Wredundant-strictness-flags
                  -Wforall-identifier
+                 -Woperator-whitespace-ext-conflict
   if impl(ghc >= 9.4.1)
     ghc-options: -Wgadt-mono-local-binds
                  -Wtype-equality-out-of-scope
                  -Wtype-equality-requires-operators
+  if impl(ghc >= 9.6.1)
+    ghc-options: -Wloopy-superclass-solve
+  if impl(ghc >= 9.8.1)
+    ghc-options: -Wincomplete-export-warnings
 
 library
   import: release
