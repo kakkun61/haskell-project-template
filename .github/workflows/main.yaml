@@ -8,7 +8,7 @@ jobs:
   test:
     strategy:
       matrix:
-        ghc: ['9.4.8', '9.6.3']
+        ghc: ['9.4.8', '9.6.3', '9.8.1']
         test: [doctest, spec]
 
     runs-on: ubuntu-latest
